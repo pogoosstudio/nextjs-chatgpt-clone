@@ -35,6 +35,9 @@ dependencies:
   uuid:
     specifier: ^10.0.0
     version: 10.0.0
+    pogo-ai:
+    specifier: ^1.0.6
+    version: 1.0.6
   zustand:
     specifier: ^4.5.5
     version: 4.5.5(@types/react@18.3.4)(react@18.3.1)

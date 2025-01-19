@@ -1,4 +1,4 @@
-'use server';
+/*'use server';
 
 import { createStreamableValue } from 'ai/rsc';
 import { CoreMessage, streamText } from 'ai';
@@ -27,4 +27,43 @@ export async function submitMessage(messages: CoreMessage[], chatId: string) {
     const stream = createStreamableValue(result.textStream);
 
     return stream.value;
+}*/
+
+'use server';
+
+import { createStreamableValue } from 'ai/rsc';
+import { CoreMessage } from 'ai'; // Importa solo CoreMessage
+import { Chat } from '@/models/chat';
+import PogoAI from 'pogo-ai';
+
+
+const pia = new PogoAI("pa-developers");
+
+
+export async function submitMessage(messages: CoreMessage[], chatId: string) {
+    // ... (código para guardar los mensajes en la base de datos)
+
+  try {
+
+    const prompt = messages.map(message => `${message.role}: ${message.content}`).join('\n'); // Construye el prompt
+
+
+    const response = await pia.generateText(prompt,'pia-stellar');
+
+
+    // Si PogoAI *no* soporta streaming:
+
+    const stream = createStreamableValue(response);
+
+    return stream.value;
+
+
+
+  } catch (error) {
+
+    // Manejo de errores
+    console.error("Error al generar texto con Pogo AI:", error);
+    throw error; // O maneja el error de otra manera
+  }
+
 }
